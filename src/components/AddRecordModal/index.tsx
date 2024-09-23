@@ -7,14 +7,21 @@ interface AddRecordModalProps {
   isModalOpen: boolean;
   form: FormInstance;
   onAdd: (values: { name: string; age: number; address: string }) => void;
+  onClose: () => void;
 }
 
 export const AddRecordModal: React.FC<AddRecordModalProps> = ({
   isModalOpen,
   form,
   onAdd,
+  onClose,
 }) => (
-  <Modal title="Добавить запись" open={isModalOpen} onOk={() => form.submit()}>
+  <Modal
+    title="Добавить запись"
+    open={isModalOpen}
+    onOk={() => form.submit()}
+    onCancel={onClose}
+  >
     <Form form={form} layout="vertical" onFinish={onAdd}>
       <Form.Item name="name" label="Имя" rules={validationRules.name}>
         <Input />

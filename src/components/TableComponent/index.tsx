@@ -10,7 +10,11 @@ interface TableComponentProps {
   onShowModal: () => void;
 }
 
-export const TableComponent: React.FC<TableComponentProps> = ({dataSource, onShowModal, onDelete}) => {
+export const TableComponent: React.FC<TableComponentProps> = ({
+  dataSource,
+  onShowModal,
+  onDelete,
+}) => {
   const columns: ColumnsType<DataType> = [
     { title: "Имя", dataIndex: "name", key: "name" },
     { title: "Возраст", dataIndex: "age", key: "age" },

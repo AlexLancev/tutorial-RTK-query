@@ -1,46 +1,43 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 import { DataType } from "../types";
+
+const headers = {
+  "Content-Type": "application/json",
+};
 
 export const usersApi = createApi({
   reducerPath: "usersApi",
-  tagTypes: ['Users'],
+  tagTypes: ["Users"],
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
   endpoints: (build) => ({
     getUsers: build.query<DataType[], void>({
       query: () => `/users`,
-      providesTags: (result) =>
+      providesTags: (result) => 
         result
           ? [
-              ...result.map(({ key }) => ({ type: 'Users' as const, id: key })), // Используйте as const
-              { type: 'Users' as const, id: 'LIST' },
+              ...result.map(({ key }) => ({ type: "Users" as const, id: key })),
+              { type: "Users" as const, id: "LIST" },
             ]
-          : [{ type: 'Users' as const, id: 'LIST' }],
-      
-      
+          : [{ type: "Users" as const, id: "LIST" }],
     }),
     addUser: build.mutation<void, Partial<DataType>>({
       query: (body) => ({
         url: `/users`,
         method: "POST",
-        headers: {
-          'name-header': 'user',
-          'Content-Type': 'application/json',
-        },
+        headers,
         body,
       }),
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: "Users", id: "LIST" }],
     }),
-    deleteUser: build.mutation({
-      query: (id) => ({
-        url: `users/${id}`,
-        method: 'DELETE',
-        headers: {
-          'name-header': 'user',
-          'Content-Type': 'application/json',
-        },
+    deleteUser: build.mutation<void, string>({
+      query: (key) => ({
+        url: `/users/${key}`,
+        method: "DELETE",
+        headers,
       }),
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
-    })
+      invalidatesTags: [{ type: "Users", id: "LIST" }],
+    }),
   }),
 });
 
